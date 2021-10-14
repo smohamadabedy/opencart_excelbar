@@ -1,0 +1,75 @@
+{{ header }}{{ column_left }}
+<div id="content">
+<div class="page-header">
+  <div class="container-fluid">
+    <h1>{{ heading_title }}</h1>
+    <ul class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><i class="fa fa-puzzle-piece"></i> {{ text_upload }}</h3>
+    </div>
+    <div class="panel-body">
+     
+        <fieldset>
+          <legend>{{ text_upload2 }}</legend>
+          <div class="form-group required">
+            {% if excel_info['stat'] %}
+            <div class="alert alert-{{excel_info['type']}}  alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{excel_info['text'] }}
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+            {% endif %}
+            <label class="col-sm-2 control-label" for="button-upload"><span data-toggle="tooltip" title="{{ help_upload }}">{{ entry_upload }}</span></label>
+            <div class="col-sm-10">
+                <form class="form-horizontal" method="post" action="{{form_upload}}" enctype="multipart/form-data"> 
+                <input type="file" name="excel" class="file-input form-control"/>
+                <button  class="btn btn-primary btn-block"><i class="fa fa-upload"></i> Upload</button>
+                </form>
+            </div>
+          </div>
+        </fieldset>
+        <br/>
+      
+        <br/>
+        <fieldset>
+          <legend>{{ text_history }}</legend>
+          <div id="history"></div>
+          <table id="files_table" class="cell-border hover">
+            <thead>
+            <tr>
+              <th>file_address</th>
+              <th>file_size</th>
+              <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for file in ex_files %}
+            <tr>
+              <td>{{file.address}}</td>
+              <td>{{file.size / 1000}} KB</td>
+              <td>
+                <button onClick="location.href = '{{excel_parsing}}&address={{file.address}}' " class="btn btn-primary">view / barcode_generate</button>
+                 <button onClick="location.href = '{{delete_item}}&address={{file.address}}&id={{file.id}}' " class="btn btn-danger"><i class="fa fa-trash"></i></button>
+
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </fieldset>
+      
+    </div>
+  </div>
+ </div>
+<script>
+$(document).ready( function () {
+    $('#files_table').DataTable();
+} );
+</script>
+{{ footer }} 

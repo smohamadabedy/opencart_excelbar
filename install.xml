@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>excel_bar</name>
+    <code>#mabedy_Excelbar</code>
+    <description>excel and barcode module for opencart</description>
+    <version>1.0</version>
+    <author>mohammad abedy</author>
+    <link></link>
+ 
+   
+	<file path="admin/controller/common/column_left.php">
+		<operation>
+			<search><![CDATA['children' => $report]]></search>
+			<add position="after"  offset="3" ><![CDATA[		
+				$excel_bar = array();
+
+					if ($this->user->hasPermission('access', 'excelbar/dash')) {
+						$excel_bar[] = array(
+							'name'	   => 'Dashboard',
+							'href'     => $this->url->link('excelbar/dash', 'user_token=' . $this->session->data['user_token'], true),
+							'children' => array()
+						);
+					}
+
+
+					if ($excel_bar) {
+						$data['menus'][] = array(
+							'id'       => 'menu-mblog',
+							'icon'	   => 'fa-bullhorn',
+							'name'	   => 'excel_bar',
+							'href'     => '',
+							'children' => $excel_bar
+						);
+					}
+				
+			
+			]]></add>
+		</operation>
+	</file>
+	
+	
+</modification>
